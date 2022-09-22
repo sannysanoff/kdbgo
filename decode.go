@@ -102,7 +102,7 @@ func Decode(src *bufio.Reader) (data *K, msgtype ReqType, e error) {
 			return nil, header.RequestType, errors.New("Decode:readcompressed error - " + e.Error())
 		}
 		var uncompressed = Uncompress(compressed)
-		var buf = bufio.NewReader(bytes.NewReader(uncompressed[8:]))
+		var buf = bufio.NewReaderSize(bytes.NewReader(uncompressed[8:]), len(uncompressed))
 		data, e = readData(buf, order)
 		return data, header.RequestType, e
 	}
